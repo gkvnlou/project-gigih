@@ -87,7 +87,7 @@ tr:nth-child(odd) {
   margin: auto auto;
 }
 
-#submitBtn {
+.submitBtn {
   width: 100px;
   height: 30px;
   border-style: none;
@@ -95,11 +95,11 @@ tr:nth-child(odd) {
   transition: all 0.1s;
 }
 
-#submitBtn:hover {
+.submitBtn:hover {
   background-color: #50cdff;
 }
 
-#submitBtn:active {
+.submitBtn:active {
   background-color: #fff;
   border-style: solid;
 }
@@ -111,7 +111,7 @@ tr:nth-child(odd) {
   text-align: center;
 }
 
-#submitConfirm {
+.submitConfirm {
   margin-top: 5px;
 }
 
@@ -119,7 +119,7 @@ tr:nth-child(odd) {
   text-align: center;
 }
 
-#textInput {
+.textInput {
   width: 300px;
   color: #000;
   display: block;

@@ -1,5 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
+import Table from './components/Table.js';
 
 function App() {
   return (
@@ -8,50 +8,15 @@ function App() {
       </header>
       <body>
         <div></div>
-        <div class="container">
-            <div class="container-textarea">
+        <div className="container">
+            <div className="container-textarea">
                 <h1>Song Player</h1>
             </div>
-          <img src="./oreo.jpg" class="oreo" />
+          <img src="./logo512.png" className="oreo" alt="Img not found" />
           <p></p>
-          <table>
-            <tr>
-              <td>
-                Song Title
-              </td>
-              <td>
-                <div></div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Song Artist
-              </td>
-              <td>
-                P_G2FE2056_Kevin
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Song Album
-                <div></div>
-              </td>
-              <td>
-                Generasi GIGIH 2.0
-              </td>
-            </tr>
-            <tr>
-                <td>
-                  Song Description
-                  <div></div>
-                </td>
-                <td>
-                  <div></div>
-                </td>
-              </tr>
-          </table>
-          <div class="btn">
-            <button>Select</button>
+          <Table title="Title" artist="Artist" album="Album" desc="Description"/>
+          <div className="btn">
+            <button className="submitBtn">Select</button>
             <div></div>
           </div>
         </div>
