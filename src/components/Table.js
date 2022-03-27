@@ -1,6 +1,7 @@
 const Table = (props) => {
     return(
-        <table>
+        <table className="songList">
+              <td colSpan={2}><img className="songPicture" src={props.image} alt="Image not found"/></td>
             <tr>
               <td>
                 Song Title

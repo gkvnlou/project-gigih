@@ -37,11 +37,21 @@
   }
 }
 
+* {
+  color: rgb(206, 206, 206);
+}
 
+.webTitle{
+  color:#1978a3;
+}
 
+.songPicture{
+  max-width: 300px;
+}
 
 body {
   font-family: sans-serif;
+  background-color: #000000;
 }
 .container {
   display: block;
@@ -49,30 +59,34 @@ body {
   height: 500px;
 }
 
-table {
+.songList {
   text-align: center;
   list-style: none;
-  border: 1px solid #000000;
+  border: 5px solid #1978a3;
   margin: auto auto;
+  margin-top: 30px;
 }
-td {
+.songList td {
   text-align: center;
   width: 200px;
-  max-width: 300px;
+  max-width: 200px;
   word-wrap: break-word;
 }
 
+tr:nth-child(even) {
+  background-color: #1978a3;
+}
 tr:nth-child(odd) {
-  background-color: #aaa;
+  background-color: #164961;
 }
 
-.btn {
-  margin-top: 30px;
+.containerBtn {
+  margin: 30px auto;
   text-align: center;
   width: 100%;
 }
 
-.container-textarea textarea {
+.containerTextarea textarea {
   width: 300px;
   color: #777;
   display: block;
@@ -90,18 +104,24 @@ tr:nth-child(odd) {
 .submitBtn {
   width: 100px;
   height: 30px;
+  border-color: rgba(0,0,0,255);
+  border-width: 2px;
   border-style: none;
-  background-color: #cbe6f1;
+  background-color: rgb(25, 120, 163);
   transition: all 0.1s;
+  border-radius: 100%/90px;
 }
 
 .submitBtn:hover {
-  background-color: #50cdff;
+  background-color: #17a0df;
 }
 
 .submitBtn:active {
-  background-color: #fff;
+  border-width: 2px;
   border-style: solid;
+  border-color:  rgba(25, 120, 163,255);
+  background-color: rgb(209, 233, 255);
+  color: black;
 }
 
 .textbox-title {

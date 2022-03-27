@@ -1,7 +1,16 @@
 import './App.css';
 import Table from './components/Table.js';
+import data from './data/all-data.js';
 
 function App() {
+
+  const PrintTrack = () => {
+    const dataList = data.map((_i) => (
+      <Table title={_i.album.name} artist={_i.album.artists[0].name} album={_i.name} desc={_i.album.external_urls.spotify} image={_i.album.images[1].url} />
+    ));
+    return dataList;
+  };
+
   return (
     <div className="App">
       <header>
@@ -9,13 +18,12 @@ function App() {
       <body>
         <div></div>
         <div className="container">
-            <div className="container-textarea">
-                <h1>Song Player</h1>
+            <div className="containerTextarea">
+                <h1 className="webTitle">Blue Player</h1>
             </div>
-          <img src="./logo512.png" className="oreo" alt="Img not found" />
           <p></p>
-          <Table title="Title" artist="Artist" album="Album" desc="Description"/>
-          <div className="btn">
+          <PrintTrack />
+          <div className="containerBtn">
             <button className="submitBtn">Select</button>
             <div></div>
           </div>
