@@ -16,7 +16,7 @@ function App() {
   
     const CLIENT_ID = "b91c3357e54045beb7769d42e4b46d9c";
     const SPOTIFY_AUTHORIZE_ENDPOINT = "https://accounts.spotify.com/authorize";
-    const REDIRECT_URL_AFTER_LOGIN = "http://localhost:3000/dashboard/";
+    const REDIRECT_URL_AFTER_LOGIN = "http://localhost:3000/";
     const SCOPES = "playlist-modify-private";
     const HOMEPAGE = "http://localhost:3000/";
 
