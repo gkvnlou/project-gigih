@@ -19,7 +19,7 @@ function App() {
     const REDIRECT_URL_AFTER_LOGIN = "http://localhost:3000/";
     const SCOPES = "playlist-modify-private";
     const HOMEPAGE = "http://localhost:3000/";
-
+    
     const getReturnedParamsFromSpotifyAuth = (hash) => {
       const stringAfterHashtag = hash.substring(1);
       const paramsInUrl = stringAfterHashtag.split("&");
