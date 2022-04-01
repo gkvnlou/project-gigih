@@ -1,7 +1,9 @@
-import App from "../App";
-const Table = (props) => {
+const TablePin = (props) => {
     return(
-        <table className="songList">
+        <table className="songListPinned">
+              <tr>
+              <td colSpan={2}>📌Pinned</td>
+              </tr>
               <td colSpan={2}><img className="songPicture" src={props.image} alt="Image not found"/></td>
             <tr>
               <td>
@@ -36,9 +38,9 @@ const Table = (props) => {
                 <td>
                   <div>{props.desc}</div>
                 </td>
-            </tr>
+              </tr>
           </table>
     );
 };
 
-export default Table;
+export default TablePin;

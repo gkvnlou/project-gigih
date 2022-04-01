@@ -73,10 +73,10 @@ body {
   word-wrap: break-word;
 }
 
-tr:nth-child(even) {
+.songList tr:nth-child(even) {
   background-color: #1978a3;
 }
-tr:nth-child(odd) {
+.songList tr:nth-child(odd) {
   background-color: #164961;
 }
 
@@ -146,4 +146,80 @@ tr:nth-child(odd) {
   margin: auto auto 15px auto;
   padding-bottom: auto auto;
   text-align: center;
+}
+
+
+.songListPinned {
+  text-align: center;
+  list-style: none;
+  border: 5px solid #19a32b;
+  margin: auto auto;
+  margin-top: 30px;
+}
+.songListPinned td {
+  text-align: center;
+  width: 200px;
+  max-width: 200px;
+  word-wrap: break-word;
+}
+
+.songListPinned tr:nth-child(even) {
+  background-color: #1f882d;
+}
+.songListPinned tr:nth-child(odd) {
+  background-color: #144e12;
+}
+
+.setPinnedBtn {
+  width: 300px;
+  height: 30px;
+  border-color: rgba(0,0,0,255);
+  border-width: 2px;
+  border-style: none;
+  background-color: rgb(25, 120, 163);
+  transition: all 0.1s;
+  border-radius: 0px 0px 10px 10px;
+}
+
+.setPinnedBtn:hover {
+  background-color: #17a0df;
+}
+
+.setPinnedBtn:active {
+  border-width: 2px;
+  border-style: none;
+  border-color:  rgba(25, 120, 163,255);
+  background-color: rgb(209, 233, 255);
+  color: black;
+}
+
+.removePinnedBtn {
+  width: 300px;
+  height: 30px;
+  border-color: rgba(0,0,0,255);
+  border-width: 2px;
+  border-style: none;
+  background-color: rgb(18, 99, 11);
+  transition: all 0.1s;
+  border-radius: 0px 0px 10px 10px;
+}
+
+.removePinnedBtn:hover {
+  background-color: #0fa133;
+}
+
+.removePinnedBtn:active {
+  border-width: 2px;
+  border-style: none;
+  border-color:  rgba(25, 120, 163,255);
+  background-color: rgb(209, 233, 255);
+  color: black;
+}
+
+.searchBar{
+  color: black;
+  width: 250px;
+  height: 0px;
+  border-radius: 100px 100px 100px 100px;
+  padding: 14px;
 }
