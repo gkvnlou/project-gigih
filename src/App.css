@@ -176,13 +176,13 @@ body {
   border-color: rgba(0,0,0,255);
   border-width: 2px;
   border-style: none;
-  background-color: rgb(25, 120, 163);
+  background-color: rgb(9, 82, 116);
   transition: all 0.1s;
   border-radius: 0px 0px 10px 10px;
 }
 
 .setPinnedBtn:hover {
-  background-color: #17a0df;
+  background-color: rgb(25, 120, 163);
 }
 
 .setPinnedBtn:active {

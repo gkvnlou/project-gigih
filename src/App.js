@@ -47,7 +47,7 @@ function App() {
         setLoggedIn(true);
       }
       
-    })
+    }, [])
 
     useEffect(() => {
       if (localStorage.getItem("pinnedTrack")) {
@@ -131,6 +131,7 @@ function App() {
     const removeSongDataFromPinned = () => {
       console.log("PIN REMOVED");
       setPinnedSongData(null);
+      localStorage.removeItem("pinnedTrack");
     } 
 
 

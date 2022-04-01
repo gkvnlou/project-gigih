@@ -3,8 +3,8 @@ import axios from "axios";
 import App from "../App";
 
 const SONGLISTS_ENDPOINT = "https://api.spotify.com/v1/search?";
-const SONGLISTS_LIMIT = "&limit=3";
 const SONGLIST_TYPE = "&type=track";
+const SONGLISTS_LIMIT = "&limit=3";
 
 
 const SpotifySearch = ({onSearch}) => {
@@ -25,13 +25,13 @@ const SpotifySearch = ({onSearch}) => {
 
 
     useEffect(() => {
-        console.log(`${SONGLISTS_ENDPOINT}${SONGLIST_QUERY}${SONGLIST_TYPE}${SONGLIST_TYPE}`);
+        console.log(`${SONGLISTS_ENDPOINT}${SONGLIST_QUERY}${SONGLIST_TYPE}${SONGLIST_TYPE}${SONGLISTS_LIMIT}`);
         localStorage.setItem("searchData", searchData);
     }, [searchData]);
 
     
     const handleGetSonglist = () => {
-        const SONGLISTS_COMBINED = `${SONGLISTS_ENDPOINT}${SONGLIST_QUERY}${SONGLIST_TYPE}${SONGLIST_TYPE}`
+        const SONGLISTS_COMBINED = `${SONGLISTS_ENDPOINT}${SONGLIST_QUERY}${SONGLIST_TYPE}${SONGLIST_TYPE}${SONGLISTS_LIMIT}`;
         axios
         .get(SONGLISTS_COMBINED, {
             headers: {
