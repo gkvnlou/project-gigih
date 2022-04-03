@@ -29,7 +29,13 @@ const SpotifySearch = ({onSearch}) => {
         localStorage.setItem("searchData", searchData);
     }, [searchData]);
 
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        handleGetSonglist();
+    };
     
+
     const handleGetSonglist = () => {
         const SONGLISTS_COMBINED = `${SONGLISTS_ENDPOINT}${SONGLIST_QUERY}${SONGLIST_TYPE}${SONGLIST_TYPE}${SONGLISTS_LIMIT}`;
         axios
@@ -49,9 +55,9 @@ const SpotifySearch = ({onSearch}) => {
 
     return (
     <>
-        <form>
-          <input type="text" name="search" value={searchData} onChange={e => {setSearchData(e.target.value)}} className="searchBar"/>
-          <button onClick={handleGetSonglist} style={{width: "100px", borderRadius: "100px", marginLeft: "20px"}} className="submitBtn"> Search </button>
+        <form onSubmit={handleFormSubmit}>
+          <input type="text" name="search" value={searchData} onChange={(e) => setSearchData(e.target.value)} className="searchBar"/>
+          <button type="submit" style={{width: "100px", borderRadius: "100px", marginLeft: "20px"}} className="submitBtn"> Search </button>
         </form>
     </>
     );
