@@ -8,10 +8,16 @@ import data from './data/all-data';
 import SpotifyAddPlaylist from './components/SpotifyAddPlaylist';
 import SpotifyFindUserData from './components/SpotifyFindUserData';
 import SpotifyAddTrackIntoPlaylist from './components/SpotifyAddTrackIntoPlaylist';
-//http://localhost:3000/#access_token=BQArzFaLx0XPK_NptI6ICpAi4tJpvaFew0ZFNw40ZGCwojiBntrgHIvv4Ni6RVyMJjgsy9I7rQ4DJPGLOCqgH3ECp1QKY4le9bjQyEMni0YOgpqryII1bZ98MWWyxpxEbrSRoVtQ8keurn1c5YK6Mm3Tq1S0lOnkp7lE4uyj_APfbzj5rzjyETjl8UJR-BKtD24&token_type=Bearer&expires_in=3600
+import {useDispatch, useSelector} from 'react-redux';
+import {increment, decrement, updateToken} from './actions/index.js';
 
 
 function App() {
+  const counter = useSelector(state => state.counter);
+  const isLogged = useSelector(state => state.isLogged);
+  const userToken = useSelector(state => state.token);
+  const dispatch = useDispatch();
+
 
   const [songData, setSongData] = useState();
   const [table, setTable] = useState();
@@ -47,6 +53,7 @@ function App() {
         localStorage.setItem("accessToken", access_token);
         localStorage.setItem("tokenType", token_type);
         localStorage.setItem("expiresIn", expires_in);
+        dispatch(updateToken(access_token));
         setLoggedIn(true);
       }
       
@@ -171,42 +178,62 @@ function App() {
     <div className="App">
       <header>
       </header>
-      <body>
-        <div></div>
+      <body> 
         <div className="container">
             <div className="containerTextarea">
                 <h1 className="webTitle">Blue Player</h1>
             </div>
-          <p></p>
           <div className="containerBtn">
             <LogInCheckHandler />
           </div>
 
           <div>
-            <p>The most basic Spotify API call.</p>
-            <p>Log in first before showing the result</p>
-            <p>After Login, Search any song you like and Pin it! (Search button required to pressed twice, i will figure it out later, at least it work)</p>
-            <p>Also sorry for the bad UI, Making an API work first is my priority</p>
-            <p>CREDITS: P_G2FE2056_KEVIN</p>
+              {loggedIn? <><h3>Logged in!</h3><br />Your token is:<br />{userToken}<SpotifyFindUserData /></> : ''}
           </div>
 
-          <SpotifyFindUserData />
-
-          <SpotifySearch onSearch={(searchData) => {
-              setSongData(searchData);
-              printTrack();
-            }} />
           <div>
-              <button onClick={() => {setTable()}} className="submitBtn" style={{marginTop: "10px"}}>Remove Table</button>
+            <p>
+              The most basic Spotify API call.<br />
+              Log in first before showing the result<br />
+              After Login, Search any song you like and Pin it! (Search button <b>REQUIRED</b> to <b>PRESSED TWICE</b>, it's because the network and a bug that i will figure it out later, at least it work)<br />
+              Also sorry for the bad UI, Making an API work first is my priority<br />
+              <b>CREDITS: P_G2FE2056_KEVIN</b>
+            </p>
           </div>
-          <div>
-          <SpotifyAddPlaylist />
-          <SpotifyAddTrackIntoPlaylist />
 
+          
+
+          
+          
+          <div>
+            {loggedIn? 
+            <>
+              <SpotifySearch onSearch={(searchData) => {
+                setSongData(searchData);
+                printTrack();
+              }} />
+              
+              <div>
+                <button onClick={() => {setTable()}} className="submitBtn" style={{marginTop: "10px"}}>Remove Table</button>
+              </div>
+
+              <SpotifyAddPlaylist />
+              <SpotifyAddTrackIntoPlaylist />
+              
+
+              <div>
+                {tablePinned}
+                {table}
+              </div>
+            </>
+            :
+            <>
+              <b>Please log in first to able to use the program</b>
+            </>
+            }
           </div>
-          {tablePinned}
-          {table}
-        </div>
+            
+          </div>
 
         <script src="src/index.js"></script>
         
