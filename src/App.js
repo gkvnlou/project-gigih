@@ -10,6 +10,8 @@ import SpotifyFindUserData from './components/SpotifyFindUserData';
 import SpotifyAddTrackIntoPlaylist from './components/SpotifyAddTrackIntoPlaylist';
 import { useDispatch, useSelector } from 'react-redux';
 import { increment, decrement, updateToken } from './actions/index.js';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 function App() {
 	const counter = useSelector((state) => state.counter); // Just a normal counter for testing purposes
@@ -26,7 +28,7 @@ function App() {
 
 	const CLIENT_ID = 'b91c3357e54045beb7769d42e4b46d9c';
 	const SPOTIFY_AUTHORIZE_ENDPOINT = 'https://accounts.spotify.com/authorize';
-	const REDIRECT_URL_AFTER_LOGIN = 'http://localhost:3000/';
+	const REDIRECT_URL_AFTER_LOGIN = 'http://localhost:3000/create-playlist';
 	const SCOPES = ['playlist-modify-private', 'playlist-read-private'];
 	const SCOPES_PARAM = [SCOPES.join('%20')];
 	const HOMEPAGE = 'http://localhost:3000/';
@@ -34,11 +36,11 @@ function App() {
 	const getReturnedParamsFromSpotifyAuth = (hash) => {
 		const stringAfterHashtag = hash.substring(1);
 		const paramsInUrl = stringAfterHashtag.split('&');
-		const paramsSplitUp = paramsInUrl.reduce((accumulater, currentValue) => {
+		const paramsSplitUp = paramsInUrl.reduce((accumulator, currentValue) => {
 			console.log(currentValue);
 			const [key, value] = currentValue.split('=');
-			accumulater[key] = value;
-			return accumulater;
+			accumulator[key] = value;
+			return accumulator;
 		}, {});
 
 		return paramsSplitUp;
@@ -186,82 +188,92 @@ function App() {
 		<div className="App">
 			<header></header>
 			<body>
-				<div className="container">
-					<div className="containerTextarea">
-						<h1 className="webTitle">Blue Player</h1>
-					</div>
-					<div className="containerBtn">
-						<LogInCheckHandler />
-					</div>
-
-					<div>
-						{loggedIn ? (
-							<>
-								<h3>Logged in!</h3>
-								<br />
-								Your token is:
-								<br />
-								{userToken}
-								<SpotifyFindUserData />
-							</>
-						) : (
-							''
-						)}
-					</div>
-
-					<div>
-						<p>
-							The most basic Spotify API call.
-							<br />
-							Log in first before showing the result
-							<br />
-							After Login, Search any song you like and Pin it! (Search button{' '}
-							<b>REQUIRED</b> to <b>PRESSED TWICE</b>, it's because the network
-							and a bug that i will figure it out later, at least it work)
-							<br />
-							Also sorry for the bad UI, Making an API work first is my priority
-							<br />
-							<b>CREDITS: P_G2FE2056_KEVIN</b>
-						</p>
-					</div>
-
-					<div>
-						{loggedIn ? (
-							<>
-								<SpotifySearch
-									onSearch={(searchData) => {
-										setSongData(searchData);
-										printTrack();
-									}}
-								/>
-
-								<div>
-									<button
-										onClick={() => {
-											setTable();
-										}}
-										className="submitBtn"
-										style={{ marginTop: '10px' }}
-									>
-										Remove Table
-									</button>
-								</div>
-
-								<SpotifyAddPlaylist />
-								<SpotifyAddTrackIntoPlaylist />
-
-								<div>
-									{tablePinned}
-									{table}
-								</div>
-							</>
-						) : (
-							<>
-								<b>Please log in first to able to use the program</b>
-							</>
-						)}
-					</div>
+				<div className="containerTextarea">
+					<h1 className="webTitle">Blue Player</h1>
 				</div>
+				<div className="containerBtn">
+					<LogInCheckHandler />
+				</div>
+
+				<Router>
+					<Switch>
+						<Route path="/create-playlist">
+							{loggedIn ? (
+								<>
+									<div>
+										{loggedIn ? (
+											<>
+												<h3>Logged in!</h3>
+												<br />
+												Your token is:
+												<br />
+												{userToken}
+												<SpotifyFindUserData />
+											</>
+										) : (
+											<Redirect to="/" />
+										)}
+									</div>
+									<div>
+										<p>
+											The most basic Spotify API call.
+											<br />
+											After Login, Search any song you like and Pin it! (Search
+											button <b>REQUIRED</b> to <b>PRESSED TWICE or MORE</b> or
+											try <b>RELOAD THE BROWSER</b>.
+											<br />
+											It's because the network and a bug that i will figure it
+											out later, at least it work)
+											<br />
+											Also sorry for the bad UI, Making an API work first is my
+											priority
+											<br />
+											<b>CREDITS: P_G2FE2056_KEVIN</b>
+										</p>
+									</div>
+									Searching the song
+									<SpotifySearch
+										onSearch={(searchData) => {
+											setSongData(searchData);
+											printTrack();
+										}}
+									/>
+									{/* <div>
+										<button
+											onClick={() => {
+												setTable();
+											}}
+											className="submitBtn"
+											style={{ marginTop: '10px' }}
+										>
+											Remove Table
+										</button>
+									</div> */}
+									<SpotifyAddPlaylist />
+									<SpotifyAddTrackIntoPlaylist />
+									<div>
+										{tablePinned}
+										{table}
+									</div>
+								</>
+							) : (
+								<div>Error</div>
+							)}
+						</Route>
+						<Route path="/">
+							<div>
+								<p>
+									Spotify API Call for GENERASI GIGIH 2.0's Homework Project
+									<br />
+									<b>Please log in first to able to use the program</b>
+									<br />
+									<br />
+									<b>CREDITS: P_G2FE2056_KEVIN</b>
+								</p>
+							</div>
+						</Route>
+					</Switch>
+				</Router>
 
 				<script src="src/index.js"></script>
 			</body>
