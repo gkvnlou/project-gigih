@@ -17,12 +17,9 @@ function App() {
 	const isLogged = useSelector((state) => state.isLogged); // Log in Status (Not Used)
 	const userToken = useSelector((state) => state.token); // Storing user token into reducer
 	const dispatch = useDispatch();
-
-	const [songData, setSongData] = useState(); // Storing song data from the API
 	const [table, setTable] = useState(); // set Table
 	const [tablePinned, setTablePinned] = useState(); // set Pinned Table
 	const [loggedIn, setLoggedIn] = useState(false); // Log in Status in Hooks
-	const [isLoading, setIsLoading] = useState(false); // set loading status (currently not in use)
 	const [pinnedSongData, setPinnedSongData] = useState([]); // Storing pinned song
 
 	const CLIENT_ID = 'b91c3357e54045beb7769d42e4b46d9c';
@@ -53,43 +50,40 @@ function App() {
 			localStorage.setItem('accessToken', access_token);
 			localStorage.setItem('tokenType', token_type);
 			localStorage.setItem('expiresIn', expires_in);
-			dispatch(updateToken(access_token));
+			dispatch(updateToken(access_token)); //Reducer
 			setLoggedIn(true);
 		}
 	}, [dispatch]);
 
 	useEffect(() => {
-		const printTrackPinned = () => {
-			console.log('and for some reason, the data will be');
-			const _pinnedData = JSON.parse(localStorage.getItem('pinnedTrack'));
+		console.log('and for some reason, the data will be');
+		const _pinnedData = JSON.parse(localStorage.getItem('pinnedTrack'));
 
-			if (_pinnedData !== null) {
-				const dataList = _pinnedData.map((_i) => {
-					return (
-						<>
-							<TablePin
-								key={_i.id}
-								title={_i.name}
-								artist={_i.artists[0].name}
-								album={_i.album.name}
-								desc={_i.href}
-								image={_i.album.images[0].url}
-							/>
-							<button
-								onClick={() => {
-									removeSongDataFromPinned(_i.id);
-								}}
-								className="removePinnedBtn"
-							>
-								Remove Pin
-							</button>
-						</>
-					);
-				});
-				setTablePinned(dataList);
-			} else setTablePinned(null);
-		};
-		printTrackPinned();
+		if (_pinnedData !== null) {
+			const dataList = _pinnedData.map((_i) => {
+				return (
+					<>
+						<TablePin
+							key={_i.id}
+							title={_i.name}
+							artist={_i.artists[0].name}
+							album={_i.album.name}
+							desc={_i.href}
+							image={_i.album.images[0].url}
+						/>
+						<button
+							onClick={() => {
+								removeSongDataFromPinned(_i.id);
+							}}
+							className="removePinnedBtn"
+						>
+							Remove Pin
+						</button>
+					</>
+				);
+			});
+			setTablePinned(dataList);
+		} else setTablePinned(null);
 	}, [pinnedSongData]);
 
 	const handleLogin = () => {
@@ -100,8 +94,8 @@ function App() {
 		window.location = `${HOMEPAGE}`;
 	};
 
-	const printTrackReg = () => {
-		const dataList = songData.tracks.items.map((_i) => {
+	const printTrackReg = (searchData) => {
+		const dataList = searchData.tracks.items.map((_i) => {
 			return (
 				<>
 					<Table
@@ -114,7 +108,7 @@ function App() {
 					/>
 					<button
 						onClick={() => {
-							copySongDataToPinned(_i.id);
+							copySongDataToPinned(_i.id, searchData);
 						}}
 						className="setPinnedBtn"
 					>
@@ -125,10 +119,6 @@ function App() {
 		});
 		setTable(dataList);
 		return table;
-	};
-
-	const printTrack = () => {
-		printTrackReg();
 	};
 
 	const LogInCheckHandler = () => {
@@ -147,7 +137,7 @@ function App() {
 		}
 	};
 
-	const copySongDataToPinned = (songId) => {
+	const copySongDataToPinned = (songId, searchData) => {
 		let _pinnedData = JSON.parse(localStorage.getItem('pinnedTrack'));
 		if (_pinnedData == null) {
 			_pinnedData = [];
@@ -155,7 +145,7 @@ function App() {
 
 		const dataList = Object.assign(
 			{},
-			...songData.tracks.items.filter((_i) => _i.id === songId)
+			...searchData.tracks.items.filter((_i) => _i.id === songId)
 		);
 		console.log('the data you got will be');
 		console.log(dataList);
@@ -181,7 +171,7 @@ function App() {
 	};
 
 	return (
-		// Web Render
+		//Web render
 		<div className="App">
 			<header></header>
 			<body>
@@ -191,7 +181,6 @@ function App() {
 				<div className="containerBtn">
 					<LogInCheckHandler />
 				</div>
-
 				<Router>
 					<Switch>
 						<Route path="/create-playlist">
@@ -215,14 +204,7 @@ function App() {
 										<p>
 											The most basic Spotify API call.
 											<br />
-											After Login, Search any song you like and Pin it! (Search
-											button <b>REQUIRED</b> to <b>PRESSED TWICE or MORE</b> or
-											try <b>RELOAD THE BROWSER</b>.
-											<br />
-											It's because the network and a bug that i will figure it
-											out later, at least it work)
-											<br />
-											Also sorry for the bad UI, Making an API work first is my
+											Sorry for the bad UI, Making an API work first is my
 											priority
 											<br />
 											<b>CREDITS: P_G2FE2056_KEVIN</b>
@@ -231,21 +213,9 @@ function App() {
 									Searching the song
 									<SpotifySearch
 										onSearch={(searchData) => {
-											setSongData(searchData);
-											printTrack();
+											printTrackReg(searchData);
 										}}
 									/>
-									{/* <div>
-										<button
-											onClick={() => {
-												setTable();
-											}}
-											className="submitBtn"
-											style={{ marginTop: '10px' }}
-										>
-											Remove Table
-										</button>
-									</div> */}
 									<SpotifyAddPlaylist />
 									<SpotifyAddTrackIntoPlaylist />
 									<div>
