@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import App from '../App';
 
 const SpotifyAddTrackIntoPlaylist = ({ onSearch }) => {
 	const [token, setToken] = useState('');
-	const [playlistTitleData, setPlaylistTitleData] = useState('');
-	const [playlistDescriptionData, setPlaylistDescriptionData] = useState('');
 
 	useEffect(() => {
 		if (localStorage.getItem('accessToken')) {
@@ -28,14 +25,6 @@ const SpotifyAddTrackIntoPlaylist = ({ onSearch }) => {
 
 		const TRACK_ID_PARAM =
 			'spotify%3Atrack%3A' + TRACK_ID.join('%2Cspotify%3Atrack%3A');
-
-		console.log(TRACK_ID_PARAM);
-
-		const _jsonPlaylist = {
-			name: `${playlistTitleData}`,
-			description: `${playlistDescriptionData}`,
-			public: false,
-		};
 
 		const PLAYLIST_COMBINED = `${PLAYLIST_ENDPOINT}${TRACK_ID_PARAM}`;
 		console.log(PLAYLIST_COMBINED);

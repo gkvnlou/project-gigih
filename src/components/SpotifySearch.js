@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import App from '../App';
 
 const SONGLISTS_ENDPOINT = 'https://api.spotify.com/v1/search?';
 const SONGLIST_TYPE = '&type=track';
@@ -25,7 +24,7 @@ const SpotifySearch = ({ onSearch }) => {
 			`${SONGLISTS_ENDPOINT}${SONGLIST_QUERY}${SONGLIST_TYPE}${SONGLIST_TYPE}${SONGLISTS_LIMIT}`
 		);
 		localStorage.setItem('searchData', searchData);
-	}, [searchData]);
+	}, [SONGLIST_QUERY, searchData]);
 
 	const handleFormSubmit = (e) => {
 		e.preventDefault();

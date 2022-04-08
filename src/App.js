@@ -4,7 +4,6 @@ import Table from './components/Table.js';
 import TablePin from './components/TablePin';
 import SpotifySearch from './components/SpotifySearch';
 import axios from 'axios';
-import data from './data/all-data';
 import SpotifyAddPlaylist from './components/SpotifyAddPlaylist';
 import SpotifyFindUserData from './components/SpotifyFindUserData';
 import SpotifyAddTrackIntoPlaylist from './components/SpotifyAddTrackIntoPlaylist';
@@ -57,9 +56,39 @@ function App() {
 			dispatch(updateToken(access_token));
 			setLoggedIn(true);
 		}
-	}, []);
+	}, [dispatch]);
 
 	useEffect(() => {
+		const printTrackPinned = () => {
+			console.log('and for some reason, the data will be');
+			const _pinnedData = JSON.parse(localStorage.getItem('pinnedTrack'));
+
+			if (_pinnedData !== null) {
+				const dataList = _pinnedData.map((_i) => {
+					return (
+						<>
+							<TablePin
+								key={_i.id}
+								title={_i.name}
+								artist={_i.artists[0].name}
+								album={_i.album.name}
+								desc={_i.href}
+								image={_i.album.images[0].url}
+							/>
+							<button
+								onClick={() => {
+									removeSongDataFromPinned(_i.id);
+								}}
+								className="removePinnedBtn"
+							>
+								Remove Pin
+							</button>
+						</>
+					);
+				});
+				setTablePinned(dataList);
+			} else setTablePinned(null);
+		};
 		printTrackPinned();
 	}, [pinnedSongData]);
 
@@ -69,38 +98,6 @@ function App() {
 	const handleLogout = () => {
 		localStorage.clear();
 		window.location = `${HOMEPAGE}`;
-	};
-
-	const printTrackPinned = () => {
-		console.log('and for some reason, the data will be');
-		const _pinnedData = JSON.parse(localStorage.getItem('pinnedTrack'));
-
-		if (_pinnedData !== null) {
-			const dataList = _pinnedData.map((_i) => {
-				return (
-					<>
-						<TablePin
-							key={_i.id}
-							title={_i.name}
-							artist={_i.artists[0].name}
-							album={_i.album.name}
-							desc={_i.href}
-							image={_i.album.images[0].url}
-						/>
-						<button
-							onClick={() => {
-								removeSongDataFromPinned(_i.id);
-							}}
-							className="removePinnedBtn"
-						>
-							Remove Pin
-						</button>
-					</>
-				);
-			});
-			setTablePinned(dataList);
-		} else setTablePinned(null);
-		return tablePinned;
 	};
 
 	const printTrackReg = () => {
@@ -163,7 +160,7 @@ function App() {
 		console.log('the data you got will be');
 		console.log(dataList);
 
-		if (_pinnedData.find((_i) => _i.id == songId) == undefined) {
+		if (_pinnedData.find((_i) => _i.id === songId) === undefined) {
 			_pinnedData.push(dataList);
 			localStorage.setItem('pinnedTrack', JSON.stringify(_pinnedData));
 			console.log(_pinnedData);

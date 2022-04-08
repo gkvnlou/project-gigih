@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import App from '../App';
 
 const SpotifyAddPlaylist = ({ onSearch }) => {
 	const USER_ID = localStorage.getItem('userID');
@@ -20,7 +19,7 @@ const SpotifyAddPlaylist = ({ onSearch }) => {
 		console.log(`${PLAYLIST_ENDPOINT}`);
 
 		//localStorage.setItem("searchData", searchData);
-	}, [playlistTitleData]);
+	}, [PLAYLIST_ENDPOINT, playlistTitleData]);
 
 	const handleFormSubmit = (e) => {
 		e.preventDefault();
