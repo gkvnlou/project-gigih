@@ -17,6 +17,8 @@ function App() {
 	const isLogged = useSelector((state) => state.isLogged); // Log in Status (Not Used)
 	const userToken = useSelector((state) => state.token); // Storing user token into reducer
 	const dispatch = useDispatch();
+	const [isPinned, setIsPinned] = useState();
+	const [isSearched, setIsSearched] = useState();
 	const [table, setTable] = useState(); // set Table
 	const [tablePinned, setTablePinned] = useState(); // set Pinned Table
 	const [loggedIn, setLoggedIn] = useState(false); // Log in Status in Hooks
@@ -62,7 +64,7 @@ function App() {
 		if (_pinnedData !== null) {
 			const dataList = _pinnedData.map((_i) => {
 				return (
-					<>
+					<div className="cardWrapper">
 						<TablePin
 							key={_i.id}
 							title={_i.name}
@@ -79,11 +81,13 @@ function App() {
 						>
 							Remove Pin
 						</button>
-					</>
+					</div>
 				);
 			});
 			setTablePinned(dataList);
-		} else setTablePinned(null);
+		} else {
+			setTablePinned(null);
+		}
 	}, [pinnedSongData]);
 
 	const handleLogin = () => {
@@ -97,7 +101,7 @@ function App() {
 	const printTrackReg = (searchData) => {
 		const dataList = searchData.tracks.items.map((_i) => {
 			return (
-				<>
+				<div className="cardWrapper">
 					<Table
 						key={_i.id}
 						title={_i.name}
@@ -114,7 +118,7 @@ function App() {
 					>
 						Add to Pin
 					</button>
-				</>
+				</div>
 			);
 		});
 		setTable(dataList);
@@ -153,11 +157,7 @@ function App() {
 		if (_pinnedData.find((_i) => _i.id === songId) === undefined) {
 			_pinnedData.push(dataList);
 			localStorage.setItem('pinnedTrack', JSON.stringify(_pinnedData));
-			console.log(_pinnedData);
-			console.log(localStorage.getItem('pinnedTrack'));
 			setPinnedSongData(_pinnedData);
-			console.log('AND, the data still');
-			console.log(_pinnedData);
 		}
 	};
 
@@ -169,6 +169,32 @@ function App() {
 		setPinnedSongData(_i);
 		localStorage.setItem('pinnedTrack', JSON.stringify(_i));
 	};
+
+	useEffect(() => {
+		if (tablePinned === undefined || tablePinned === null) {
+			setIsPinned('');
+		} else if (tablePinned.length !== 0) {
+			const _i = (
+				<div colSpan={3} className="pinnedList">
+					Pinned Song List! 📌
+				</div>
+			);
+			setIsPinned(_i);
+		} else setIsPinned('');
+	}, [tablePinned]);
+
+	useEffect(() => {
+		if (table === undefined || tablePinned === null) {
+			setIsSearched('');
+		} else if (table.length !== 0) {
+			const _i = (
+				<div colSpan={3} className="searchedList">
+					Search result 🔍
+				</div>
+			);
+			setIsSearched(_i);
+		} else setIsSearched('');
+	}, [table]);
 
 	return (
 		//Web render
@@ -190,10 +216,6 @@ function App() {
 										{loggedIn ? (
 											<>
 												<h3>Logged in!</h3>
-												<br />
-												Your token is:
-												<br />
-												{userToken}
 												<SpotifyFindUserData />
 											</>
 										) : (
@@ -210,16 +232,22 @@ function App() {
 											<b>CREDITS: P_G2FE2056_KEVIN</b>
 										</p>
 									</div>
-									Searching the song
+									Search
 									<SpotifySearch
 										onSearch={(searchData) => {
 											printTrackReg(searchData);
 										}}
 									/>
+									<br />
+									Making Playlist
 									<SpotifyAddPlaylist />
 									<SpotifyAddTrackIntoPlaylist />
-									<div>
+									<div className="table">
+										{isPinned}
 										{tablePinned}
+
+										<div style={{ marginTop: '10px' }} />
+										{isSearched}
 										{table}
 									</div>
 								</>

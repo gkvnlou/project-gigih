@@ -56,7 +56,7 @@ const SpotifyAddPlaylist = ({ onSearch }) => {
 	return (
 		<>
 			<form onSubmit={handleFormSubmit}>
-				<table style={{ textAlign: 'center', margin: '25px auto 0px auto' }}>
+				<table style={{ textAlign: 'center', margin: '0px auto 0px auto' }}>
 					<tr>
 						<td>Title</td>
 						<td>

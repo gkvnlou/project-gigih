@@ -1,36 +1,34 @@
 const Table = (props) => {
 	return (
-		<table className="songList">
-			<td colSpan={2}>
-				<img className="songPicture" src={props.image} alt="not found" />
-			</td>
-			<tr>
-				<td>Song Title</td>
-				<td>
-					<div>{props.title}</div>
-				</td>
-			</tr>
-			<tr>
-				<td>Song Artist</td>
-				<td>{props.artist}</td>
-			</tr>
-			<tr>
-				<td>
-					Song Album
-					<div></div>
-				</td>
-				<td>{props.album}</td>
-			</tr>
-			<tr>
-				<td>
-					Song Description
-					<div></div>
-				</td>
-				<td>
-					<div>{props.desc}</div>
-				</td>
-			</tr>
-		</table>
+		<div className="songCard">
+			<table>
+				<tr>
+					<td className="cardLamp"></td>
+					<td>
+						<img className="songPicture" src={props.image} alt="not found" />
+					</td>
+					<td className="cardContent">
+						<table className="songList">
+							<tr>
+								<td colSpan={2} className="cardTitle">
+									{props.title}
+								</td>
+							</tr>
+							<tr>
+								<td colSpan={2} className="cardSubTitleLV1">
+									{props.artist}
+								</td>
+							</tr>
+							<tr>
+								<td colSpan={2} className="cardSubTitleLV2">
+									{props.album}
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div>
 	);
 };
 
