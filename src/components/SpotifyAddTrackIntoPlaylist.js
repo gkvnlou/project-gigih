@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Button from '@mui/material/Button';
 
 const SpotifyAddTrackIntoPlaylist = ({ onSearch }) => {
 	const [token, setToken] = useState('');
@@ -45,13 +46,21 @@ const SpotifyAddTrackIntoPlaylist = ({ onSearch }) => {
 
 	return (
 		<>
-			<button
+			<Button
+				type="submit"
 				onClick={handleAddTrackIntoPlaylist}
-				style={{ width: '250px', borderRadius: '100px', marginTop: '20px' }}
-				className="submitBtn"
+				id="search-button-playlist"
+				variant="contained"
+				size="large"
+				sx={{
+					width: '30%',
+					marginTop: '50px',
+					backgroundColor: 'green',
+					'&:hover': { backgroundColor: 'darkgreen' },
+				}}
 			>
-				<b>Add Song Into Playlist</b>
-			</button>
+				Add pinned song into playlist
+			</Button>
 		</>
 	);
 };

@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 
 const SONGLISTS_ENDPOINT = 'https://api.spotify.com/v1/search?';
 const SONGLIST_TYPE = '&type=track';
@@ -49,22 +52,31 @@ const SpotifySearch = ({ onSearch }) => {
 
 	return (
 		<>
-			<form onSubmit={handleFormSubmit} style={{ marginTop: '10px' }}>
-				<input
-					type="text"
-					name="search"
+			<Stack
+				direction="row"
+				spacing={2}
+				justifyContent="center"
+				alignItems="center"
+			>
+				<TextField
+					id="search-text-box"
+					label="Search"
 					value={searchData}
+					variant="outlined"
 					onChange={(e) => setSearchData(e.target.value)}
-					className="searchBar"
+					focused
+					sx={{ width: '15%' }}
 				/>
-				<button
+				<Button
 					type="submit"
-					style={{ width: '100px', borderRadius: '100px', marginLeft: '20px' }}
-					className="submitBtn"
+					onClick={handleFormSubmit}
+					id="search-button"
+					variant="contained"
+					size="large"
 				>
 					Search
-				</button>
-			</form>
+				</Button>
+			</Stack>
 		</>
 	);
 };

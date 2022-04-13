@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 
-const SpotifyAddPlaylist = ({ onSearch }) => {
+const SpotifyAddPlaylist = () => {
 	const USER_ID = localStorage.getItem('userID');
 	const PLAYLIST_ENDPOINT = `https://api.spotify.com/v1/users/${USER_ID}/playlists?`;
 
@@ -55,47 +58,44 @@ const SpotifyAddPlaylist = ({ onSearch }) => {
 
 	return (
 		<>
-			<form onSubmit={handleFormSubmit}>
-				<table style={{ textAlign: 'center', margin: '0px auto 0px auto' }}>
-					<tr>
-						<td>Title</td>
-						<td>
-							<input
-								type="text"
-								name="searchData"
-								value={playlistTitleData}
-								onChange={(e) => setPlaylistTitleData(e.target.value)}
-								className="searchBar"
-							/>
-						</td>
-					</tr>
-					<tr>
-						<td>Description</td>
-						<td>
-							<input
-								type="text"
-								name="description"
-								value={playlistDescriptionData}
-								onChange={(e) => setPlaylistDescriptionData(e.target.value)}
-								className="searchBar"
-							/>
-						</td>
-					</tr>
-					<td colSpan={2}>
-						<button
-							type="submit"
-							style={{
-								width: '100px',
-								borderRadius: '100px',
-								marginTop: '10px',
-							}}
-							className="submitBtn"
-						>
-							Create Playlist
-						</button>
-					</td>
-				</table>
-			</form>
+			<Stack
+				direction="column"
+				spacing={2}
+				justifyContent="center"
+				alignItems="center"
+				sx={{ width: '100%' }}
+			>
+				<TextField
+					id="search-text-box"
+					label="Playlist Name"
+					value={playlistTitleData}
+					variant="outlined"
+					onChange={(e) => setPlaylistTitleData(e.target.value)}
+					focused
+					sx={{ width: '30%' }}
+				/>
+
+				<TextField
+					id="search-text-box"
+					label="Playlist Description"
+					value={playlistDescriptionData}
+					variant="outlined"
+					onChange={(e) => setPlaylistDescriptionData(e.target.value)}
+					focused
+					sx={{ width: '30%' }}
+				/>
+
+				<Button
+					type="submit"
+					onClick={handleFormSubmit}
+					id="search-button-playlist"
+					variant="contained"
+					size="large"
+					sx={{ width: '30%' }}
+				>
+					Create Playlist
+				</Button>
+			</Stack>
 		</>
 	);
 };

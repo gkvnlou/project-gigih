@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { increment, decrement, updateToken } from './actions/index.js';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
+import Button from '@mui/material/Button';
 
 function App() {
 	const counter = useSelector((state) => state.counter); // Just a normal counter for testing purposes
@@ -128,15 +129,25 @@ function App() {
 	const LogInCheckHandler = () => {
 		if (loggedIn) {
 			return (
-				<button onClick={handleLogout} className="submitBtn">
+				<Button
+					type="submit"
+					onClick={handleLogout}
+					variant="outlined"
+					size="medium"
+				>
 					Logout
-				</button>
+				</Button>
 			);
 		} else {
 			return (
-				<button onClick={handleLogin} className="submitBtn">
+				<Button
+					type="submit"
+					onClick={handleLogin}
+					variant="contained"
+					size="medium"
+				>
 					Login
-				</button>
+				</Button>
 			);
 		}
 	};
@@ -184,7 +195,7 @@ function App() {
 	}, [tablePinned]);
 
 	useEffect(() => {
-		if (table === undefined || tablePinned === null) {
+		if (table === undefined || table === null) {
 			setIsSearched('');
 		} else if (table.length !== 0) {
 			const _i = (
@@ -232,14 +243,14 @@ function App() {
 											<b>CREDITS: P_G2FE2056_KEVIN</b>
 										</p>
 									</div>
-									Search
+									<b>Search</b>
 									<SpotifySearch
 										onSearch={(searchData) => {
 											printTrackReg(searchData);
 										}}
 									/>
 									<br />
-									Making Playlist
+									<b>Making Playlist</b>
 									<SpotifyAddPlaylist />
 									<SpotifyAddTrackIntoPlaylist />
 									<div className="table">

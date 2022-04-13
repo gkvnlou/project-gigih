@@ -62,7 +62,7 @@
 
 body {
 	font-family: sans-serif;
-	background-color: #000000;
+	background-color: #111111;
 }
 .container {
 	display: block;
@@ -146,7 +146,7 @@ body {
 
 .cardLamp-pinned {
 	min-width: 5px;
-	background-color: #19a32b;
+	background-color: green;
 }
 
 .pinnedList {
@@ -157,7 +157,7 @@ body {
 	margin-top: 50px;
 	width: 705px;
 	flex-direction: column;
-	background-color: #19a32b;
+	background-color: green;
 	border-radius: 7px 7px 0px 0px;
 }
 
@@ -281,13 +281,13 @@ body {
 	border-color: rgba(0, 0, 0, 255);
 	border-width: 2px;
 	border-style: none;
-	background-color: #156920;
+	background-color: green;
 	transition: all 0.1s;
 	border-radius: 50px 50px 50px 50px;
 }
 
 .removePinnedBtn:hover {
-	background-color: #149434;
+	background-color: darkgreen;
 }
 
 .removePinnedBtn:active {
@@ -304,4 +304,17 @@ body {
 	height: 0px;
 	border-radius: 100px 100px 100px 100px;
 	padding: 14px;
+}
+
+#search-text-box {
+	color: white;
+	height: 10px;
+}
+
+#search-button {
+	width: 150px;
+}
+
+#search-text-box-label {
+	color: #aaaaaa;
 }
