@@ -7,7 +7,6 @@ const SPOTIFY_PLAYLIST_ENDPOINT =
 
 const SpotifyFindUserData = () => {
 	const [token, setToken] = useState('');
-
 	const [userID, setUserID] = useState('');
 	const [userPlaylistID, setUserPlaylistID] = useState('');
 	const [userPlaylistName, setUserPlaylistName] = useState('');

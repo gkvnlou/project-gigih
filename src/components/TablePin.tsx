@@ -1,4 +1,7 @@
-const TablePin = (props) => {
+import { FC } from 'react';
+import { TableData } from './Table';
+
+const TablePin: FC<TableData> = (props) => {
 	return (
 		<div className="songCard">
 			<table>

@@ -1,22 +1,18 @@
 import { useState, useEffect } from 'react';
 import './App.css';
-import Table from './components/Table.js';
-import TablePin from './components/TablePin';
-import SpotifySearch from './components/SpotifySearch';
-import axios from 'axios';
+import Table from './components/Table.tsx';
+import TablePin from './components/TablePin.tsx';
+import SpotifySearch from './components/SpotifySearch.tsx';
 import SpotifyAddPlaylist from './components/SpotifyAddPlaylist';
-import SpotifyFindUserData from './components/SpotifyFindUserData';
+import SpotifyFindUserData from './components/SpotifyFindUserData.js';
 import SpotifyAddTrackIntoPlaylist from './components/SpotifyAddTrackIntoPlaylist';
-import { useDispatch, useSelector } from 'react-redux';
-import { increment, decrement, updateToken } from './actions/index.js';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { updateToken } from './actions/index.js';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 import Button from '@mui/material/Button';
 
 function App() {
-	const counter = useSelector((state) => state.counter); // Just a normal counter for testing purposes
-	const isLogged = useSelector((state) => state.isLogged); // Log in Status (Not Used)
-	const userToken = useSelector((state) => state.token); // Storing user token into reducer
 	const dispatch = useDispatch();
 	const [isPinned, setIsPinned] = useState();
 	const [isSearched, setIsSearched] = useState();

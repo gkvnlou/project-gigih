@@ -59,7 +59,7 @@ const SpotifyAddTrackIntoPlaylist = ({ onSearch }) => {
 					'&:hover': { backgroundColor: 'darkgreen' },
 				}}
 			>
-				Add pinned song into playlist
+				Add pinned song into playlist your latest playlist
 			</Button>
 		</>
 	);

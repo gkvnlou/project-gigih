@@ -1,4 +1,13 @@
-const Table = (props) => {
+import { FC } from 'react';
+
+export interface TableData {
+	image: string;
+	title: string;
+	artist: string;
+	album: string;
+}
+
+const Table: FC<TableData> = (props) => {
 	return (
 		<div className="songCard">
 			<table>

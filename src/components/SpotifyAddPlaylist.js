@@ -7,10 +7,12 @@ import TextField from '@mui/material/TextField';
 const SpotifyAddPlaylist = () => {
 	const USER_ID = localStorage.getItem('userID');
 	const PLAYLIST_ENDPOINT = `https://api.spotify.com/v1/users/${USER_ID}/playlists?`;
-
+	const SPOTIFY_PLAYLIST_ENDPOINT =
+		'https://api.spotify.com/v1/me/playlists?limit=1';
 	const [token, setToken] = useState('');
 	const [playlistTitleData, setPlaylistTitleData] = useState('');
 	const [playlistDescriptionData, setPlaylistDescriptionData] = useState('');
+	const [userPlaylistID, setUserPlaylistID] = useState('');
 
 	useEffect(() => {
 		if (localStorage.getItem('accessToken')) {
@@ -20,7 +22,6 @@ const SpotifyAddPlaylist = () => {
 
 	useEffect(() => {
 		console.log(`${PLAYLIST_ENDPOINT}`);
-
 		//localStorage.setItem("searchData", searchData);
 	}, [PLAYLIST_ENDPOINT, playlistTitleData]);
 
@@ -49,7 +50,52 @@ const SpotifyAddPlaylist = () => {
 				},
 			})
 			.then(() => {
-				window.location.reload();
+				axios
+					.get(SPOTIFY_PLAYLIST_ENDPOINT, {
+						headers: {
+							Authorization: 'Bearer ' + token,
+						},
+					})
+					.then((response) => {
+						handleAddTrackIntoPlaylist(response.data.items[0].id);
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
+	const handleAddTrackIntoPlaylist = (response) => {
+		const PLAYLIST_ID = response;
+		console.log('THE PLAYLIST ID IS');
+		console.log(PLAYLIST_ID);
+		const PLAYLIST_ENDPOINT = `https://api.spotify.com/v1/playlists/${PLAYLIST_ID}/tracks?uris=`;
+		console.log(PLAYLIST_ENDPOINT);
+		const _pinnedData = JSON.parse(localStorage.getItem('pinnedTrack'));
+		let TRACK_ID = [];
+		if (_pinnedData !== null) {
+			TRACK_ID = _pinnedData.map((e) => {
+				return e.id;
+			});
+		}
+
+		const TRACK_ID_PARAM =
+			'spotify%3Atrack%3A' + TRACK_ID.join('%2Cspotify%3Atrack%3A');
+
+		const PLAYLIST_COMBINED = `${PLAYLIST_ENDPOINT}${TRACK_ID_PARAM}`;
+		console.log(PLAYLIST_COMBINED);
+
+		axios
+			.post(PLAYLIST_COMBINED, '', {
+				headers: {
+					Authorization: 'Bearer ' + token,
+				},
+			})
+			.then(() => {
+				//window.location.reload();
 			})
 			.catch((error) => {
 				console.log(error);
@@ -93,7 +139,7 @@ const SpotifyAddPlaylist = () => {
 					size="large"
 					sx={{ width: '30%' }}
 				>
-					Create Playlist
+					Create Playlist & Add Pinned Song into it
 				</Button>
 			</Stack>
 		</>
