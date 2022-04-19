@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const SPOTIFY_USERDATA_ENDPOINT = 'https://api.spotify.com/v1/me';
-const SPOTIFY_PLAYLIST_ENDPOINT =
+export const SPOTIFY_USERDATA_ENDPOINT = 'https://api.spotify.com/v1/me';
+export const SPOTIFY_PLAYLIST_ENDPOINT =
 	'https://api.spotify.com/v1/me/playlists?limit=1';
 
 const SpotifyFindUserData = () => {
@@ -10,6 +10,7 @@ const SpotifyFindUserData = () => {
 	const [userID, setUserID] = useState('');
 	const [userPlaylistID, setUserPlaylistID] = useState('');
 	const [userPlaylistName, setUserPlaylistName] = useState('');
+	const [username, setUsername] = useState('');
 
 	useEffect(() => {
 		if (localStorage.getItem('accessToken')) {
@@ -25,6 +26,7 @@ const SpotifyFindUserData = () => {
 		})
 		.then((response) => {
 			setUserID(response.data.id);
+			setUsername(response.data.display_name);
 		})
 		.catch((error) => {
 			console.log(error);
@@ -53,6 +55,10 @@ const SpotifyFindUserData = () => {
 			<p>
 				Spotify ID
 				<br />[ {userID} ]
+			</p>
+			<p>
+				Spotify Name
+				<br />[ {username} ]
 			</p>
 			<p>
 				Selected Playlist

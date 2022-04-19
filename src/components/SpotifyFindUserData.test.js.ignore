@@ -1,0 +1,67 @@
+import { render, screen } from '@testing-library/react';
+import SpotifyFindUserData, {
+	SPOTIFY_USERDATA_ENDPOINT,
+	SPOTIFY_PLAYLIST_ENDPOINT,
+} from './SpotifyFindUserData.js';
+
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
+import userEvent from '@testing-library/user-event';
+
+const todoResponse = rest.get(SPOTIFY_USERDATA_ENDPOINT, (req, res, ctx) => {
+	return res(
+		ctx.json([
+			{
+				display_name: 'dummy',
+				// external_urls: {
+				// 	spotify: 'https://open.spotify.com/user/31quh6eoumnkydzyy2dbjqk2bude',
+				// },
+				// followers: {
+				// 	href: null,
+				// 	total: 0,
+				// },
+				// href: 'https://api.spotify.com/v1/users/31quh6eoumnkydzyy2dbjqk2bude',
+				// id: '31quh6eoumnkydzyy2dbjqk2bude',
+				// images: [],
+				// type: 'user',
+				// uri: 'spotify:user:31quh6eoumnkydzyy2dbjqk2bude',
+			},
+		])
+	);
+});
+
+const spotResponse = rest.get(SPOTIFY_PLAYLIST_ENDPOINT, (req, res, ctx) => {
+	return res(
+		ctx.json([
+			{
+				display_name: 'dummy',
+				// external_urls: {
+				// 	spotify: 'https://open.spotify.com/user/31quh6eoumnkydzyy2dbjqk2bude',
+				// },
+				// followers: {
+				// 	href: null,
+				// 	total: 0,
+				// },
+				// href: 'https://api.spotify.com/v1/users/31quh6eoumnkydzyy2dbjqk2bude',
+				// id: '31quh6eoumnkydzyy2dbjqk2bude',
+				// images: [],
+				// type: 'user',
+				// uri: 'spotify:user:31quh6eoumnkydzyy2dbjqk2bude',
+			},
+		])
+	);
+});
+
+const handlers = [todoResponse, spotResponse];
+
+const server = new setupServer(...handlers);
+
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
+test('It should return the proper API response', async () => {
+	render(<SpotifyFindUserData />);
+	const dummySongTitle = await screen.findByText(/dummy/i);
+	expect(dummySongTitle).toBeVisible();
+});

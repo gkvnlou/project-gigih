@@ -4,7 +4,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
-const SONGLISTS_ENDPOINT = 'https://api.spotify.com/v1/search?';
+export const SONGLISTS_ENDPOINT = 'https://api.spotify.com/v1/search?';
 const SONGLIST_TYPE = '&type=track';
 const SONGLISTS_LIMIT = '&limit=5';
 
