@@ -3,6 +3,7 @@ import axios from 'axios';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import SearchIcon from '@mui/icons-material/Search';
 
 export const SONGLISTS_ENDPOINT = 'https://api.spotify.com/v1/search?';
 const SONGLIST_TYPE = '&type=track';
@@ -156,23 +157,27 @@ const SpotifySearch = ({ onSearch }) => {
 				justifyContent="center"
 				alignItems="center"
 			>
-				<TextField
-					id="search-text-box"
-					label="Search"
-					value={searchData}
-					variant="outlined"
+				<input
+					className="textInput"
 					onChange={(e) => setSearchData(e.target.value)}
-					focused
-					sx={{ width: '15%' }}
+					value={searchData}
+					style={{ marginLeft: '30px' }}
 				/>
+
 				<Button
 					type="submit"
 					onClick={handleFormSubmit}
-					id="search-button"
 					variant="contained"
 					size="large"
+					sx={{
+						borderRadius: '100px 100px 100px 100px',
+						backgroundColor: 'green',
+						'&:hover': { backgroundColor: 'darkgreen' },
+						width: '70px',
+						height: '47px',
+					}}
 				>
-					Search
+					<SearchIcon />
 				</Button>
 			</Stack>
 		</>

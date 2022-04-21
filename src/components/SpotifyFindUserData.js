@@ -8,9 +8,8 @@ export const SPOTIFY_PLAYLIST_ENDPOINT =
 const SpotifyFindUserData = () => {
 	const [token, setToken] = useState('');
 	const [userID, setUserID] = useState('');
-	const [userPlaylistID, setUserPlaylistID] = useState('');
-	const [userPlaylistName, setUserPlaylistName] = useState('');
-	const [username, setUsername] = useState('');
+	const [userPlaylistFetchStatus, setPlaylistFetchStatus] = useState(false);
+	const [userFetchStatus, setUserFetchStatus] = useState(false);
 
 	useEffect(() => {
 		if (localStorage.getItem('accessToken')) {
@@ -25,15 +24,13 @@ const SpotifyFindUserData = () => {
 			},
 		})
 		.then((response) => {
+			setUserFetchStatus(true);
 			setUserID(response.data.id);
-			setUsername(response.data.display_name);
 		})
 		.catch((error) => {
 			console.log(error);
 		});
-
 	localStorage.setItem('userID', userID);
-
 	axios
 		.get(SPOTIFY_PLAYLIST_ENDPOINT, {
 			headers: {
@@ -41,33 +38,81 @@ const SpotifyFindUserData = () => {
 			},
 		})
 		.then((response) => {
-			setUserPlaylistID(response.data.items[0].id);
-			setUserPlaylistName(response.data.items[0].name);
+			setPlaylistFetchStatus(true);
 		})
 		.catch((error) => {
 			console.log(error);
 		});
 
-	localStorage.setItem('userPlaylistID', userPlaylistID);
-
 	return (
-		<>
+		<div style={{ marginLeft: '10px', position: 'absolute' }}>
 			<p>
-				Spotify ID
-				<br />[ {userID} ]
+				Fetching User Database Status
+				{userFetchStatus ? (
+					<>
+						<br />
+						<div
+							style={{
+								width: '50px',
+								height: '7px',
+								backgroundColor: 'green',
+								borderRadius: '100px 100px 100px 100px',
+								marginTop: '7px',
+							}}
+						></div>
+					</>
+				) : (
+					<>
+						<>
+							<br />
+							<div
+								style={{
+									width: '50px',
+									height: '7px',
+									backgroundColor: 'red',
+									borderRadius: '100px 100px 100px 100px',
+									marginTop: '7px',
+								}}
+							></div>
+						</>
+					</>
+				)}
 			</p>
 			<p>
-				Spotify Name
-				<br />[ {username} ]
-			</p>
-			<p>
-				Selected Playlist
-				<br />[ {userPlaylistName} ]
-				<br />[ {userPlaylistID} ]
+				Fetching Playlist Database Status
+				{userPlaylistFetchStatus ? (
+					<>
+						<br />
+						<div
+							style={{
+								width: '50px',
+								height: '7px',
+								backgroundColor: 'green',
+								borderRadius: '100px 100px 100px 100px',
+								marginTop: '7px',
+							}}
+						></div>
+					</>
+				) : (
+					<>
+						<>
+							<br />
+							<div
+								style={{
+									width: '50px',
+									height: '7px',
+									backgroundColor: 'red',
+									borderRadius: '100px 100px 100px 100px',
+									marginTop: '7px',
+								}}
+							></div>
+						</>
+					</>
+				)}
 				<br />
-				(Playlist is selected on your most recent one)
+				UserID : {userID}
 			</p>
-		</>
+		</div>
 	);
 };
 

@@ -5,12 +5,13 @@ import TablePin from './components/TablePin.tsx';
 import SpotifySearch from './components/SpotifySearch.tsx';
 import SpotifyAddPlaylist from './components/SpotifyAddPlaylist';
 import SpotifyFindUserData from './components/SpotifyFindUserData.js';
-import SpotifyAddTrackIntoPlaylist from './components/SpotifyAddTrackIntoPlaylist';
 import { useDispatch } from 'react-redux';
 import { updateToken } from './actions/index.js';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Redirect } from 'react-router-dom';
 import Button from '@mui/material/Button';
+import './assets/go-musik-logo.png';
+import AboutMeContent from './components/AboutMeContent';
+import TutorialButton from './components/TutorialButton';
 
 function App() {
 	const dispatch = useDispatch();
@@ -67,7 +68,7 @@ function App() {
 							title={_i.name}
 							artist={_i.artists[0].name}
 							album={_i.album.name}
-							desc={_i.href}
+							duration={parseInt(_i.duration_ms)}
 							image={_i.album.images[0].url}
 						/>
 						<button
@@ -104,7 +105,7 @@ function App() {
 						title={_i.name}
 						artist={_i.artists[0].name}
 						album={_i.album.name}
-						desc={_i.href}
+						duration={_i.duration_ms}
 						image={_i.album.images[0].url}
 					/>
 					<button
@@ -141,8 +142,12 @@ function App() {
 					onClick={handleLogin}
 					variant="contained"
 					size="medium"
+					sx={{
+						backgroundColor: 'green',
+						'&:hover': { backgroundColor: 'darkgreen' },
+					}}
 				>
-					Login
+					Login Using Spotify
 				</Button>
 			);
 		}
@@ -183,7 +188,7 @@ function App() {
 		} else if (tablePinned.length !== 0) {
 			const _i = (
 				<div colSpan={3} className="pinnedList">
-					Pinned Song List! 📌
+					<h4 style={{ fontWeight: 'normal' }}>Pinned Song List! 📌</h4>
 				</div>
 			);
 			setIsPinned(_i);
@@ -196,82 +201,133 @@ function App() {
 		} else if (table.length !== 0) {
 			const _i = (
 				<div colSpan={3} className="searchedList">
-					Search result 🔍
+					<h4 style={{ fontWeight: 'normal' }}>Search result 🔍</h4>
 				</div>
 			);
 			setIsSearched(_i);
 		} else setIsSearched('');
 	}, [table]);
 
+	const GetURLData = () => {
+		console.log(window.location.href.search(/about/i));
+		if (window.location.href.search(/about/i) === -1) {
+			console.log('true');
+			localStorage.setItem('linkPlusToken', window.location.href);
+			return (
+				<a href={window.location.href}>
+					<h3>Playlist</h3>
+				</a>
+			);
+		} else {
+			console.log('false');
+			return (
+				<a href={localStorage.getItem('linkPlusToken')}>
+					<h3>Playlist</h3>
+				</a>
+			);
+		}
+	};
+
 	return (
 		//Web render
 		<div className="App">
-			<header></header>
 			<body>
-				<div className="containerTextarea">
-					<h1 className="webTitle">Blue Player</h1>
-				</div>
-				<div className="containerBtn">
-					<LogInCheckHandler />
-				</div>
+				{loggedIn || window.location.href.search(/about/i) !== -1 ? (
+					<>
+						<header>
+							<img
+								className="homeLogo"
+								src={require('./assets/go-musik-logo.png')}
+								alt="not found"
+								style={{ marginLeft: '30px' }}
+							/>
+							<ul className="headerMenu">
+								<li>
+									<GetURLData />
+								</li>
+								<li>
+									<a href="/about">
+										<h3>About</h3>
+									</a>
+								</li>
+							</ul>
+							<div
+								style={{
+									display: 'flex',
+									width: '50vw',
+									justifyContent: 'flex-end',
+								}}
+							>
+								<h3>
+									<a href={HOMEPAGE}>Logout</a>
+								</h3>
+							</div>
+						</header>
+					</>
+				) : (
+					''
+				)}
+
 				<Router>
 					<Switch>
 						<Route path="/create-playlist">
 							{loggedIn ? (
 								<>
-									<div>
-										{loggedIn ? (
-											<>
-												<h3>Logged in!</h3>
-												<SpotifyFindUserData />
-											</>
-										) : (
-											<Redirect to="/" />
-										)}
-									</div>
-									<div>
-										<p>
-											The most basic Spotify API call.
-											<br />
-											Sorry for the bad UI, Making an API work first is my
-											priority
-											<br />
-											<b>CREDITS: P_G2FE2056_KEVIN</b>
-										</p>
-									</div>
-									<b>Search</b>
-									<SpotifySearch
-										onSearch={(searchData) => {
-											printTrackReg(searchData);
-										}}
-									/>
-									<br />
-									<b>Making Playlist</b>
-									<SpotifyAddPlaylist />
-									<SpotifyAddTrackIntoPlaylist />
-									<div className="table">
-										{isPinned}
-										{tablePinned}
+									<SpotifyFindUserData />
+									<TutorialButton />
+									<div className="bodyContent">
+										<div className="searchContainer">
+											<h1 style={{ fontWeight: 'lighter', fontSize: '50px' }}>
+												Search
+											</h1>
+											<SpotifySearch
+												onSearch={(searchData) => {
+													printTrackReg(searchData);
+												}}
+											/>
+										</div>
+										<SpotifyAddPlaylist />
 
-										<div style={{ marginTop: '10px' }} />
-										{isSearched}
-										{table}
+										<div className="table">
+											{isPinned}
+											{tablePinned}
+
+											<div style={{ marginTop: '10px' }} />
+											{isSearched}
+											{table}
+										</div>
 									</div>
 								</>
 							) : (
 								<div>Error</div>
 							)}
 						</Route>
+						<Route path="/about">
+							<div className="aboutContent">
+								<AboutMeContent />
+							</div>
+						</Route>
 						<Route path="/">
-							<div>
-								<p>
-									Spotify API Call for GENERASI GIGIH 2.0's Homework Project
-									<br />
-									<b>Please log in first to able to use the program</b>
-									<br />
-									<br />
-									<b>CREDITS: P_G2FE2056_KEVIN</b>
-								</p>
+							<div className="homeBarParent">
+								<div className="homeLeftBar">
+									<div className="homeLeftBarContent">
+										<img
+											className="homeLogo"
+											src={require('./assets/go-musik-logo.png')}
+											alt="not found"
+										/>
+										<p style={{ fontStyle: 'italic' }}>
+											Create Playlist Easily!
+										</p>
+									</div>
+								</div>
+								<div className="homeMiddleBar"></div>
+								<div className="homeRightBar">
+									<div className="homeRightBarContent">
+										<h1>Start making your playlist now.</h1>
+										<LogInCheckHandler />
+									</div>
+								</div>
 							</div>
 						</Route>
 					</Switch>
@@ -279,6 +335,16 @@ function App() {
 
 				<script src="src/index.js"></script>
 			</body>
+			<footer>
+				<div style={{ marginLeft: '30px' }}>
+					Created by <b>KEVIN_P_G2FE2056</b>. Final project for GENERASI GIGIH
+					2.0. The "GoMusik" and it's logo is fiction and create by my self and
+					have no correlation with GoJek.
+					<br />I Swear to God that this project is created by my own hands, and
+					i'm ready to receive any consequences if i found cheating when making
+					this project.
+				</div>
+			</footer>
 		</div>
 	);
 }
