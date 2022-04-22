@@ -27,10 +27,10 @@ function App() {
 	const CLIENT_ID = 'b91c3357e54045beb7769d42e4b46d9c';
 	const SPOTIFY_AUTHORIZE_ENDPOINT = 'https://accounts.spotify.com/authorize';
 	const REDIRECT_URL_AFTER_LOGIN =
-		'https://project-gigih.vercel.app/create-playlist';
+		'https://project-gigih.vercel.app/create-playlist'; //VERCEL
 	const SCOPES = ['playlist-modify-private', 'playlist-read-private'];
 	const SCOPES_PARAM = [SCOPES.join('%20')];
-	const HOMEPAGE = 'https://project-gigih.vercel.app/';
+	const HOMEPAGE = 'https://project-gigih.vercel.app/'; //VERCEL
 
 	const getReturnedParamsFromSpotifyAuth = (hash) => {
 		//String manipulation, to collet the token from the URL's String
