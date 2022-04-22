@@ -27,7 +27,8 @@
     -> Provide an Tutorial button at the top right to help user navigating the application
     -> A server indicator which will tell if the application is fully connected to the server or not
     and show a Red Lamp to warn the user that the server is failed to respond.
-    -> An "About" page to show how handsome i am uwu, and able to safely return to create "playlist" page without losing any data.
+    -> An "About" page to show how handsome i am uwu, and able to safely return
+    to create "playlist" page without losing any data.
 
 ## COPYRIGHT
 
