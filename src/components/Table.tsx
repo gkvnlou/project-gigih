@@ -1,3 +1,5 @@
+//Class that used to print a Track that comes from the search result
+
 import { FC } from 'react';
 
 export interface TableData {
@@ -9,7 +11,7 @@ export interface TableData {
 }
 
 const Table: FC<TableData> = (props) => {
-	const s = Math.floor((props.duration / 1000) % 60);
+	const s = Math.floor((props.duration / 1000) % 60); // duration is in ms, which is converted as 1 second per 1000ms
 	const m = Math.floor(props.duration / 1000 / 60);
 	return (
 		<div className="songCard">
@@ -34,7 +36,7 @@ const Table: FC<TableData> = (props) => {
 								<td colSpan={2} className="cardSubTitleLV2">
 									Duration:{' '}
 									<i>
-										{m}:{s === 0 ? '00' : s < 10 ? '0' + s : s}
+										{m}:{s < 10 ? '0' + s : s}
 									</i>
 								</td>
 							</tr>

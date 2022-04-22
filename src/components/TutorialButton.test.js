@@ -1,3 +1,5 @@
+//A test for a TutorialButton to test that is the button is functional or not
+
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import TutorialButton from './TutorialButton.js';

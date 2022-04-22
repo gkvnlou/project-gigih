@@ -1,3 +1,5 @@
+//The test for SpotifyFindUserData, i'm testing it using MSW to simulate the API fetching
+
 import { render, screen } from '@testing-library/react';
 import SpotifyFindUserData, {
 	SPOTIFY_USERDATA_ENDPOINT,

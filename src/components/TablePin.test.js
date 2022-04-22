@@ -1,12 +1,13 @@
-//Test for Table class
-//This test is testing the Table class to see if the Table is showing a proper data.
+//Test for TablePin class
+//This test is testing the TablePin class to see if the TablePin is showing a proper data.
+//This test is identical from Table because they behave the same
 
 import { render, screen } from '@testing-library/react';
-import Table from './Table.tsx';
+import TablePin from './TablePin.tsx';
 test('table showed up with proper result', () => {
 	render(
 		<>
-			<Table
+			<TablePin
 				key={'dummykey'}
 				title={'dummytitle'}
 				artist={'dummyartistname'}

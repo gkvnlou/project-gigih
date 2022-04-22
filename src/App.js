@@ -15,12 +15,14 @@ import TutorialButton from './components/TutorialButton';
 
 function App() {
 	const dispatch = useDispatch();
-	const [isPinned, setIsPinned] = useState();
-	const [isSearched, setIsSearched] = useState();
-	const [table, setTable] = useState(); // set Table
-	const [tablePinned, setTablePinned] = useState(); // set Pinned Table
-	const [loggedIn, setLoggedIn] = useState(false); // Log in Status in Hooks
-	const [pinnedSongData, setPinnedSongData] = useState([]); // Storing pinned song
+	const [isPinned, setIsPinned] = useState(); // to show the "Search result"
+	const [isSearched, setIsSearched] = useState(); //to show the "Pinned list"
+	const [table, setTable] = useState(); // set a Table song list
+	const [tablePinned, setTablePinned] = useState(); // set Pinned Table song list
+	const [loggedIn, setLoggedIn] = useState(false); // set a Logged in status
+	const [pinnedSongData, setPinnedSongData] = useState([]); // Same as tablePinned but in format of array instead of json, because of the converting, i need a second storing system
+
+	//API Thingy
 
 	const CLIENT_ID = 'b91c3357e54045beb7769d42e4b46d9c';
 	const SPOTIFY_AUTHORIZE_ENDPOINT = 'https://accounts.spotify.com/authorize';
@@ -30,6 +32,7 @@ function App() {
 	const HOMEPAGE = 'http://localhost:3000/';
 
 	const getReturnedParamsFromSpotifyAuth = (hash) => {
+		//String manipulation, to collet the token from the URL's String
 		const stringAfterHashtag = hash.substring(1);
 		const paramsInUrl = stringAfterHashtag.split('&');
 		const paramsSplitUp = paramsInUrl.reduce((accumulator, currentValue) => {
@@ -43,6 +46,7 @@ function App() {
 	};
 
 	useEffect(() => {
+		//To check if the URL has a token or not
 		if (window.location.hash) {
 			const { access_token, expires_in, token_type } =
 				getReturnedParamsFromSpotifyAuth(window.location.hash);
@@ -50,12 +54,13 @@ function App() {
 			localStorage.setItem('accessToken', access_token);
 			localStorage.setItem('tokenType', token_type);
 			localStorage.setItem('expiresIn', expires_in);
-			dispatch(updateToken(access_token)); //Reducer
+			dispatch(updateToken(access_token)); //Reducer to store the token
 			setLoggedIn(true);
 		}
 	}, [dispatch]);
 
 	useEffect(() => {
+		//To check if the table has the pinned song in the storage, and then print it
 		console.log('and for some reason, the data will be');
 		const _pinnedData = JSON.parse(localStorage.getItem('pinnedTrack'));
 
@@ -88,6 +93,8 @@ function App() {
 		}
 	}, [pinnedSongData]);
 
+	//Button To handle which url should i go after logging in or logging out. due to UI revamp,
+	//currently i only use handle login but i will keep the logout one just in case i need it.
 	const handleLogin = () => {
 		window.location = `${SPOTIFY_AUTHORIZE_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URL_AFTER_LOGIN}&scope=${SCOPES_PARAM}&response_type=token&show_dialog=true`;
 	};
@@ -96,6 +103,7 @@ function App() {
 		window.location = `${HOMEPAGE}`;
 	};
 
+	//To print a set of table from the search result
 	const printTrackReg = (searchData) => {
 		const dataList = searchData.tracks.items.map((_i) => {
 			return (
@@ -123,6 +131,7 @@ function App() {
 		return table;
 	};
 
+	//Button to check which button should i use based on the login status
 	const LogInCheckHandler = () => {
 		if (loggedIn) {
 			return (
@@ -153,6 +162,7 @@ function App() {
 		}
 	};
 
+	//To copy a song into a pinned Table
 	const copySongDataToPinned = (songId, searchData) => {
 		let _pinnedData = JSON.parse(localStorage.getItem('pinnedTrack'));
 		if (_pinnedData == null) {
@@ -182,6 +192,7 @@ function App() {
 		localStorage.setItem('pinnedTrack', JSON.stringify(_i));
 	};
 
+	//To print a divider
 	useEffect(() => {
 		if (tablePinned === undefined || tablePinned === null) {
 			setIsPinned('');
@@ -208,6 +219,7 @@ function App() {
 		} else setIsSearched('');
 	}, [table]);
 
+	//To get the ULR data for move between pages
 	const GetURLData = () => {
 		console.log(window.location.href.search(/about/i));
 		if (window.location.href.search(/about/i) === -1) {
@@ -228,46 +240,45 @@ function App() {
 		}
 	};
 
+	// The Web Render code starts here
 	return (
-		//Web render
 		<div className="App">
+			{loggedIn || window.location.href.search(/about/i) !== -1 ? ( //To print the header is the user is logged in
+				<>
+					<header>
+						<img
+							className="homeLogo"
+							src={require('./assets/go-musik-logo.png')}
+							alt="not found"
+							style={{ marginLeft: '30px' }}
+						/>
+						<ul className="headerMenu">
+							<li>
+								<GetURLData />
+							</li>
+							<li>
+								<a href="/about">
+									<h3>About</h3>
+								</a>
+							</li>
+						</ul>
+						<div
+							style={{
+								display: 'flex',
+								width: '50vw',
+								justifyContent: 'flex-end',
+							}}
+						>
+							<h3>
+								<a href={HOMEPAGE}>Logout</a>
+							</h3>
+						</div>
+					</header>
+				</>
+			) : (
+				''
+			)}
 			<body>
-				{loggedIn || window.location.href.search(/about/i) !== -1 ? (
-					<>
-						<header>
-							<img
-								className="homeLogo"
-								src={require('./assets/go-musik-logo.png')}
-								alt="not found"
-								style={{ marginLeft: '30px' }}
-							/>
-							<ul className="headerMenu">
-								<li>
-									<GetURLData />
-								</li>
-								<li>
-									<a href="/about">
-										<h3>About</h3>
-									</a>
-								</li>
-							</ul>
-							<div
-								style={{
-									display: 'flex',
-									width: '50vw',
-									justifyContent: 'flex-end',
-								}}
-							>
-								<h3>
-									<a href={HOMEPAGE}>Logout</a>
-								</h3>
-							</div>
-						</header>
-					</>
-				) : (
-					''
-				)}
-
 				<Router>
 					<Switch>
 						<Route path="/create-playlist">
@@ -332,19 +343,18 @@ function App() {
 						</Route>
 					</Switch>
 				</Router>
-
-				<script src="src/index.js"></script>
 			</body>
 			<footer>
 				<div style={{ marginLeft: '30px' }}>
 					Created by <b>KEVIN_P_G2FE2056</b>. Final project for GENERASI GIGIH
 					2.0. The "GoMusik" and it's logo is fiction and create by my self and
 					have no correlation with GoJek.
-					<br />I Swear to God that this project is created by my own hands, and
-					i'm ready to receive any consequences if i found cheating when making
-					this project.
+					<br />I Swear that this project is created by my own hands, and i'm
+					ready to receive any consequences if i found cheating when making this
+					project.
 				</div>
 			</footer>
+			<script src="src/index.js"></script>
 		</div>
 	);
 }

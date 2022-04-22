@@ -1,3 +1,5 @@
+//This class is used to get the Userdata which is needed to get the UserID to able to create a playlist
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 

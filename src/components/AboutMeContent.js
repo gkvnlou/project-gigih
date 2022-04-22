@@ -1,3 +1,5 @@
+//Class to show the aboutMe Card. mostly is imported from MUI
+
 import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';

@@ -1,3 +1,5 @@
+//This Class is used to Create a playlist
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Stack from '@mui/material/Stack';
@@ -40,11 +42,6 @@ const SpotifyAddPlaylist = () => {
 			setToken(localStorage.getItem('accessToken'));
 		}
 	}, []);
-
-	useEffect(() => {
-		console.log(`${PLAYLIST_ENDPOINT}`);
-		//localStorage.setItem("searchData", searchData);
-	}, [PLAYLIST_ENDPOINT, playlistTitleData]);
 
 	const handleFormSubmit = (e) => {
 		e.preventDefault();
@@ -115,7 +112,6 @@ const SpotifyAddPlaylist = () => {
 			'spotify%3Atrack%3A' + TRACK_ID.join('%2Cspotify%3Atrack%3A');
 
 		const PLAYLIST_COMBINED = `${PLAYLIST_ENDPOINT}${TRACK_ID_PARAM}`;
-		console.log(PLAYLIST_COMBINED);
 
 		axios
 			.post(PLAYLIST_COMBINED, '', {
