@@ -3,7 +3,7 @@
 This project is for th GENERASI GIGIH 2.0's Final project.
 This project is a Spotify API call to search the song and create a playlist with it
 
-https://github.com/gkvnlou/project-gigih
+https://github.com/gkvnlou/project-gigih (Main branch)
 
 https://project-gigih.vercel.app/
 
@@ -33,6 +33,8 @@ to create "playlist" page without losing any data.
 There is a two version of the project, the localhost and vercel version
 the different between this two the the redirect url link. if you want download this project,
 make sure you are download the localhost's one. for the vercel version, you can just go to the link
+
+https://project-gigih.vercel.app/
 
 ## COPYRIGHT
 
